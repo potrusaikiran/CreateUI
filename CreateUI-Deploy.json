@@ -49,6 +49,13 @@
       "metadata": {
         "description": "Name of the resource group for the existing virtual network"
       }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "location of the resource group for the existing virtual network"
+      }
     }
   },
   "variables": {
