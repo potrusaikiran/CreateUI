@@ -4,7 +4,7 @@
   "version": "0.1.2-preview",
   "parameters": {
     "config": {
-      "isWizard": true
+      "isWizard": false
     },
     "basics": [],
     "steps": [
@@ -96,6 +96,82 @@
             }
           }
         ]
+      },
+      {
+        "name": "WebAppConfig",
+        "label": "WebApp settings",
+        "elements": [
+          {
+            "name": "WebApp",
+            "type": "Microsoft.Common.Section",
+            "label": "App Service",
+            "elements": [],
+            "visible": true
+          },
+          {
+            "name": "webapptext",
+            "type": "Microsoft.Common.TextBlock",
+            "visible": true,
+            "options": {
+              "text": "App Service Web Apps lets you quickly build, deploy, and scale enterprise-grade web, mobile, and API apps running on any platform. Meet rigorous performance, scalability, security and compliance requirements while using a fully managed platform to perform infrastructure maintenance.",
+              "link": {
+                "label": "Learn more",
+                "uri": "https://go.microsoft.com/fwlink/?linkid=2073865"
+              }
+            }
+          },
+          {
+            "name": "WebAppName",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Web App Name",
+            "toolTip": "Assign a name to your Azure web application",
+            "defaultValue": "",
+            "constraints": {
+              "required": true,
+              "validations": [
+                {
+                  "regex": "^[a-z0-9A-Z-]{2,60}$",
+                  "message": "Only alphanumeric characters are allowed, and the value must be 2-60 characters long."
+                }
+              ]
+            }
+          },
+          {
+            "name": "AppPlan",
+            "type": "Microsoft.Common.Section",
+            "label": "App Service Plan",
+            "elements": [],
+            "visible": true
+          },
+          {
+            "name": "AppPlantext",
+            "type": "Microsoft.Common.TextBlock",
+            "visible": true,
+            "options": {
+              "text": "App Service plan pricing tier determines the location, features, cost and compute resources associated with your app.",
+              "link": {
+                "label": "Learn more",
+                "uri": "https://go.microsoft.com/fwlink/?linkid=873021"
+              }
+            }
+          },
+          {
+            "name": "AppPlanName",
+            "type": "Microsoft.Common.TextBox",
+            "label": "App Servie Plan Name",
+            "toolTip": "Assign a name to your Azure app service plan",
+            "defaultValue": "",
+            "constraints": {
+              "required": true,
+              "validations": [
+                {
+                  "regex": "^[a-z0-9A-Z-]{2,60}$",
+                  "message": "Only alphanumeric characters are allowed, and the value must be 2-60 characters long."
+                }
+              ]
+            }
+          }
+        ]
       }
     ],
     "outputs": {
@@ -106,7 +182,8 @@
       "subnetPrefix": "[steps('VirtualNetWorkConfig').VirtualNetwork.subnets.subnet1.addressPrefix]",
       "virtualNetworkResourceGroupName": "[steps('VirtualNetWorkConfig').VirtualNetwork.resourceGroup]",
       "storageAccountNamePrefix": "[steps('storageConfig').storageAccounts.prefix]",
-      "storageAccountType": "[steps('storageConfig').storageAccounts.type]"
+      "webAppName": "[steps('WebAppConfig').WebAppName]",
+      "appServicePlanName": "[steps('WebAppConfig').AppPlanName]"
     }
   }
 }

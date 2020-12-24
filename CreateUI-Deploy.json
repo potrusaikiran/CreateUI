@@ -63,9 +63,56 @@
       "metadata": {
         "description": "Storage account type"
       }
+    },
+    "appServicePlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "App Servie Plan Name"
+      }
+    },
+    "webAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "Web App Name"
+      }
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "F1",
+      "metadata": {
+        "description": "The SKU of App Service Plan."
+      }
+    },
+    "language": {
+      "type": "string",
+      "defaultValue": ".net",
+      "allowedValues": [".net", "php", "node", "html"],
+      "metadata": {
+        "description": "The language stack of the app."
+      }
     }
   },
-  "variables": {},
+  "variables": {
+    "configReference": {
+      ".net": {
+        "comments": ".Net app. No additional configuration needed."
+      },
+      "html": {
+        "comments": "HTML app. No additional configuration needed."
+      },
+      "php": {
+        "phpVersion": "7.4"
+      },
+      "node": {
+        "appSettings": [
+          {
+            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+            "value": "12.15.0"
+          }
+        ]
+      }
+    }
+  },
   "resources": [
     {
       "condition": "[equals(parameters('virtualNetworkNewOrExisting'), 'new')]",
@@ -97,6 +144,28 @@
       },
       "kind": "Storage",
       "properties": {}
+    },
+    {
+      "apiVersion": "2020-06-01",
+      "type": "Microsoft.Web/serverfarms",
+      "name": "[parameters('appServicePlanName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('sku')]"
+      }
+    },
+    {
+      "apiVersion": "2020-06-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[parameters('webAppName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
+      "properties": {
+        "siteConfig": "[variables('configReference')[parameters('language')]]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      }
     }
   ]
 }
