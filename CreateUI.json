@@ -182,6 +182,7 @@
       "subnetPrefix": "[steps('VirtualNetWorkConfig').VirtualNetwork.subnets.subnet1.addressPrefix]",
       "virtualNetworkResourceGroupName": "[steps('VirtualNetWorkConfig').VirtualNetwork.resourceGroup]",
       "storageAccountNamePrefix": "[steps('storageConfig').storageAccounts.prefix]",
+      "storageAccountType": "[steps('storageConfig').storageAccounts.type]",
       "webAppName": "[steps('WebAppConfig').WebAppName]",
       "appServicePlanName": "[steps('WebAppConfig').AppPlanName]"
     }
