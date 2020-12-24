@@ -5,10 +5,7 @@
     "virtualNetworkNewOrExisting": {
       "type": "string",
       "defaultValue": "new",
-      "allowedValues": [
-        "new",
-        "existing"
-      ],
+      "allowedValues": ["new", "existing"],
       "metadata": {
         "description": "Determines whether or not a new virtual network should be provisioned."
       }
@@ -22,9 +19,7 @@
     },
     "addressPrefixes": {
       "type": "array",
-      "defaultValue": [
-        "10.0.0.0/16"
-      ],
+      "defaultValue": ["10.0.0.0/16"],
       "metadata": {
         "description": "Address prefix of the virtual network"
       }
@@ -56,10 +51,21 @@
       "metadata": {
         "description": "location of the resource group for the existing virtual network"
       }
+    },
+    "storageAccountNamePrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Prefix for the storage account name"
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account type"
+      }
     }
   },
-  "variables": {
-  },
+  "variables": {},
   "resources": [
     {
       "condition": "[equals(parameters('virtualNetworkNewOrExisting'), 'new')]",
@@ -80,6 +86,17 @@
           }
         ]
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageAccountNamePrefix')]",
+      "apiVersion": "2019-06-01",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "kind": "Storage",
+      "properties": {}
     }
   ]
 }

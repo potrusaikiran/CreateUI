@@ -63,6 +63,39 @@
             "visible": true
           }
         ]
+      },
+      {
+        "name": "storageConfig",
+        "label": "Storage settings",
+        "subLabel": {
+          "preValidation": "Configure the infrastructure settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Storage settings",
+        "elements": [
+          {
+            "name": "storageAccounts",
+            "type": "Microsoft.Storage.MultiStorageAccountCombo",
+            "label": {
+              "prefix": "Storage account name prefix",
+              "type": "Storage account type"
+            },
+            "defaultValue": {
+              "type": "Standard_LRS"
+            },
+            "constraints": {
+              "allowedTypes": [
+                "Premium_LRS",
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_ZRS",
+                "Standard_RAGRS",
+                "Premium_GRS",
+                "Premium_ZRS"
+              ]
+            }
+          }
+        ]
       }
     ],
     "outputs": {
@@ -71,7 +104,9 @@
       "virtualNetworkNewOrExisting": "[steps('VirtualNetWorkConfig').VirtualNetwork.newOrExisting]",
       "subnetName": "[steps('VirtualNetWorkConfig').VirtualNetwork.subnets.subnet1.name]",
       "subnetPrefix": "[steps('VirtualNetWorkConfig').VirtualNetwork.subnets.subnet1.addressPrefix]",
-      "virtualNetworkResourceGroupName": "[steps('VirtualNetWorkConfig').VirtualNetwork.resourceGroup]"
+      "virtualNetworkResourceGroupName": "[steps('VirtualNetWorkConfig').VirtualNetwork.resourceGroup]",
+      "storageAccountNamePrefix": "[steps('storageConfig').storageAccounts.prefix]",
+      "storageAccountType": "[steps('storageConfig').storageAccounts.type]"
     }
   }
 }
